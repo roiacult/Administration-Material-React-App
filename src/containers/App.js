@@ -26,6 +26,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Auth path="/login" />
+        <div path="/main">Not implemented yet :(</div>
       </Router>
     </ThemeProvider>
   );
