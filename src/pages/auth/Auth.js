@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    height: "35%",
+    width: "35%",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -48,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     color: theme.palette.primary.main,
-    fontSize: "3em",
   },
   progress: {
     margin: "auto",
@@ -89,12 +89,13 @@ const Auth = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <img src={logo} alt="logo" height="150px" width="150px" />
-        <Typography component="h1" variant="h5" className={classes.title}>
+        <img className={classes.avatar} src={logo} alt="logo" />
+        <Typography component="h1" variant="h4" className={classes.title}>
           e-Srafli Admin
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
+            disabled={loading}
             text={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={(e) => setEmail(e.target.value)}
@@ -109,6 +110,7 @@ const Auth = () => {
             autoFocus
           />
           <TextField
+            disabled={loading}
             text={password}
             onChange={(e) => setPassword(e.target.value)}
             onBlur={(e) => setPassword(e.target.value)}
@@ -123,6 +125,7 @@ const Auth = () => {
             autoComplete="current-password"
           />
           <FormControlLabel
+            disabled={loading}
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
