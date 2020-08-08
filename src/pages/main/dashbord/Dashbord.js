@@ -121,6 +121,9 @@ const useStyles = makeStyles((theme) => ({
     height: "30%",
     width: "30%",
   },
+  logoTitle: {
+    color: theme.palette.primary.main,
+  },
   logoContainer: {
     display: "flex",
     flexDirection: "row",
@@ -186,7 +189,7 @@ const Dashboard = () => {
         <div className={classes.toolbarIcon}>
           <div className={classes.logoContainer}>
             <img className={classes.logo} src={logo} alt="logo" />
-            <Typography>Esrafli Admin</Typography>
+            <Typography className={classes.logoTitle}>Esrafli Admin</Typography>
           </div>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
