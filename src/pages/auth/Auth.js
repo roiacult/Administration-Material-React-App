@@ -108,6 +108,7 @@ const Auth = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
           <TextField
