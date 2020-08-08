@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import {
   LineChart,
@@ -9,58 +9,106 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Title from "./Title";
+import { CircularProgress, makeStyles } from "@material-ui/core";
+import Axios from "axios";
+
+var count = (array) => {
+  let counts = [];
+  for (var i = 0; i < array.length; i++) {
+    var element = array[i].getDate();
+    counts[element] = counts[element] ? counts[element] + 1 : 1;
+  }
+  return counts;
+};
 
 // Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
 
-const data = [
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("24:00", undefined),
-];
+const useStyles = makeStyles((theme) => ({
+  progress: {
+    margin: "auto",
+  },
+}));
 
 export default function Chart() {
+  const classes = useStyles();
   const theme = useTheme();
+  const [loading, setLoading] = useState(true);
+  const [data, setDate] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    const instance = Axios.create({
+      baseURL: "https://israfli.herokuapp.com/api/",
+      timeout: 10000,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `token ${localStorage.getItem("token")}`,
+      },
+    });
+    instance
+      .get("/orders_stats")
+      .then(function (response) {
+        let history = response.data.orders_history.map((item) => {
+          let newItem = item.created_on.substr(0, item.created_on.indexOf("T"));
+          return new Date(newItem);
+        });
+        history = count(history);
+        setLoading(false);
+        let data = [];
+        let currentDate = new Date();
+        for (let i = 1; i < 16; i++) {
+          history[currentDate.getDate()]
+            ? data.push(createData(i, history[currentDate.getDate()]))
+            : data.push(createData(i, 0));
+          currentDate.setDate(currentDate.getDate() - 1);
+        }
+        setDate(data);
+      })
+      .catch(function (error) {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <Title>Dernier 15 jour</Title>
+      {loading && <CircularProgress className={classes.progress} />}
+      {!loading && (
+        <ResponsiveContainer>
+          <LineChart
+            data={data}
+            margin={{
+              top: 16,
+              right: 16,
+              bottom: 0,
+              left: 24,
+            }}
+          >
+            <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
+            <YAxis stroke={theme.palette.text.secondary}>
+              <Label
+                angle={270}
+                position="left"
+                style={{
+                  textAnchor: "middle",
+                  fill: theme.palette.text.primary,
+                }}
+              >
+                Nombre de command
+              </Label>
+            </YAxis>
+            <Line
+              type="monotone"
+              dataKey="amount"
+              stroke={theme.palette.primary.main}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
     </React.Fragment>
   );
 }
