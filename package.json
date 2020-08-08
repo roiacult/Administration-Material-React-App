@@ -57,6 +57,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "react-svg": "^11.0.34"
+    "react-svg": "^11.0.34",
+    "recharts": "^1.8.5"
   }
 }
