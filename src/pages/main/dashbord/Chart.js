@@ -56,7 +56,6 @@ export default function Chart() {
           return new Date(newItem);
         });
         history = count(history);
-        setLoading(false);
         let data = [];
         let currentDate = new Date();
         for (let i = 1; i < 16; i++) {
@@ -65,6 +64,7 @@ export default function Chart() {
             : data.push(createData(i, 0));
           currentDate.setDate(currentDate.getDate() - 1);
         }
+        setLoading(false);
         setDate(data);
       })
       .catch(function (error) {
