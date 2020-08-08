@@ -77,7 +77,8 @@ const Auth = () => {
       .then(function (response) {
         console.log(response);
         setLoading(false);
-        navigate("/main");
+        localStorage.setItem("token", response.data.key);
+        navigate("/");
       })
       .catch(function (error) {
         console.log(error);

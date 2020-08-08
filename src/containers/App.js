@@ -26,8 +26,8 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Auth path="/" />
-        <Main path="/main" />
+        <Auth path="/login" />
+        <Main path="/" />
       </Router>
     </ThemeProvider>
   );
