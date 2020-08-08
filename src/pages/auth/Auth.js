@@ -13,7 +13,7 @@ import Container from "@material-ui/core/Container";
 import logo from "./logo.svg";
 import Axios from "axios";
 import { CircularProgress } from "@material-ui/core";
-import { Redirect } from "@reach/router";
+import { navigate } from "@reach/router";
 
 function Copyright() {
   return (
@@ -60,7 +60,6 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [redirect, setRdirect] = useState(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -78,91 +77,84 @@ const Auth = () => {
       .then(function (response) {
         console.log(response);
         setLoading(false);
-        setRdirect(true);
+        navigate("/main");
       })
       .catch(function (error) {
         console.log(error);
         setLoading(false);
-        setRdirect(false);
       });
   };
 
   return (
-    <div>
-      {redirect ? (
-        <Redirect to="/main" />
-      ) : (
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <img src={logo} alt="logo" height="150px" width="150px" />
-            <Typography component="h1" variant="h5" className={classes.title}>
-              e-Srafli Admin
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={onSubmit}>
-              <TextField
-                text={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={(e) => setEmail(e.target.value)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                text={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onBlur={(e) => setPassword(e.target.value)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              {loading && <CircularProgress />}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                disabled={loading}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={8}>
-            <Copyright />
-          </Box>
-        </Container>
-      )}
-    </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <img src={logo} alt="logo" height="150px" width="150px" />
+        <Typography component="h1" variant="h5" className={classes.title}>
+          e-Srafli Admin
+        </Typography>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
+          <TextField
+            text={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={(e) => setEmail(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            text={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onBlur={(e) => setPassword(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          {loading && <CircularProgress />}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={loading}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
   );
 };
 
