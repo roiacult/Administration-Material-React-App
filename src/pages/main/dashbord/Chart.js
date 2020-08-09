@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import Title from "./Title";
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import Axios from "axios";
+import API from "../../../API";
 
 var count = (array) => {
   let counts = [];
@@ -40,16 +40,7 @@ export default function Chart() {
 
   useEffect(() => {
     setLoading(true);
-    const instance = Axios.create({
-      baseURL: "https://israfli.herokuapp.com/api/",
-      timeout: 10000,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `token ${localStorage.getItem("token")}`,
-      },
-    });
-    instance
-      .get("/orders_stats")
+    API.get("/orders_stats")
       .then(function (response) {
         let history = response.data.orders_history.map((item) => {
           let newItem = item.created_on.substr(0, item.created_on.indexOf("T"));
@@ -68,6 +59,7 @@ export default function Chart() {
         setDate(data);
       })
       .catch(function (error) {
+        console.log(error);
         setLoading(false);
       });
   }, []);
