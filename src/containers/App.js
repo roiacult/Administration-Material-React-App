@@ -3,7 +3,9 @@ import "./App.css";
 import { Router } from "@reach/router";
 import Auth from "../pages/auth/Auth";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-import Main from "../pages/main/Main";
+import AuthHandler from "../pages/main/AuthHandler";
+import Main from "../pages/main/main";
+import Dashboard from "../pages/main/dashbord/Dashbord";
 
 const theme = createMuiTheme({
   palette: {
@@ -26,8 +28,12 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
+        <AuthHandler path="/">
+          <Main path="/">
+            <Dashboard path="/" />
+          </Main>
+        </AuthHandler>
         <Auth path="/login" />
-        <Main path="/" />
       </Router>
     </ThemeProvider>
   );
