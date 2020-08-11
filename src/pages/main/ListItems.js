@@ -5,9 +5,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
-import BarChartIcon from "@material-ui/icons/BarChart";
+import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 import LayersIcon from "@material-ui/icons/Layers";
-import PropTypes from "prop-types";
 import { navigate } from "@reach/router";
 
 const MainListItems = () => {
@@ -24,6 +23,9 @@ const MainListItems = () => {
         navigate("/orders");
         break;
       case 2:
+        navigate("/products");
+        break;
+      case 3:
         navigate("/suppliers");
         break;
     }
@@ -56,9 +58,9 @@ const MainListItems = () => {
         onClick={() => chnageFragmentTo(2)}
       >
         <ListItemIcon>
-          <PeopleIcon />
+          <FormatListNumberedIcon />
         </ListItemIcon>
-        <ListItemText primary="Customers" />
+        <ListItemText primary="Products" />
       </ListItem>
       <ListItem
         button
@@ -66,9 +68,9 @@ const MainListItems = () => {
         onClick={() => chnageFragmentTo(3)}
       >
         <ListItemIcon>
-          <BarChartIcon />
+          <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Reports" />
+        <ListItemText primary="Customers" />
       </ListItem>
       <ListItem
         button
@@ -82,11 +84,6 @@ const MainListItems = () => {
       </ListItem>
     </div>
   );
-};
-
-MainListItems.propTypes = {
-  currentFragment: PropTypes.number.isRequired,
-  fragmentChanger: PropTypes.func,
 };
 
 export default MainListItems;

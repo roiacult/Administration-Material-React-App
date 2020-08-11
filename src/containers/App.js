@@ -6,6 +6,7 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import AuthHandler from "../pages/main/AuthHandler";
 import Main from "../pages/main/main";
 import Dashboard from "../pages/main/dashbord/Dashbord";
+import Product from "../pages/main/products/products";
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +32,7 @@ const App = () => {
         <AuthHandler path="/">
           <Main path="/">
             <Dashboard path="/" />
+            <Product path="/products" />
           </Main>
         </AuthHandler>
         <Auth path="/login" />
