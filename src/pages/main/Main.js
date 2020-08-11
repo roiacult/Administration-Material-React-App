@@ -14,7 +14,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "../main/ListItems";
+import MainListItems from "../main/ListItems";
 import logo from "../../assets/logo.svg";
 import { Link } from "@reach/router";
 
@@ -111,9 +111,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "nowrap",
     alignItems: "center",
   },
-  Copyright: {
-    flexBasis: "100%",
-  },
 }));
 
 const Main = ({ children }) => {
@@ -179,9 +176,9 @@ const Main = ({ children }) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <MainListItems />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
