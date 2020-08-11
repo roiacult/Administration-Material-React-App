@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  makeStyles,
-  Grid,
-  CircularProgress,
-  Typography,
-} from "@material-ui/core";
+import { makeStyles, Grid, CircularProgress } from "@material-ui/core";
 import API from "../../../API";
+import Product from "./product";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,12 +43,11 @@ const ProductList = (props) => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <Grid container>
+        <Grid container spacing={2}>
           {products.results.map((product) => {
             return (
-              <Grid item key={product.idp} xs={6} md={4} lg={2}>
-                <img src={products.productImage} alt={products.name} />
-                <Typography>{product.name}</Typography>
+              <Grid item key={product.idp} xs={12} sm={6} md={4} lg={3}>
+                <Product product={product} />
               </Grid>
             );
           })}
