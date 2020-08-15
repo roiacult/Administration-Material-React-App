@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -11,9 +8,11 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import logo from "../../assets/logo.svg";
-import { CircularProgress } from "@material-ui/core";
-import { navigate } from "@reach/router";
-import API from "../../API";
+import { loginUser } from "../../redux/auth/actions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import LoadingButton from "../../components/LoadingButton";
+import { Redirect } from "@reach/router";
 
 function Copyright() {
   return (
@@ -50,34 +49,19 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.primary.main,
   },
-  progress: {
-    margin: "auto",
-  },
 }));
 
-const Auth = () => {
+const Auth = (props) => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    API.post("/rest-auth/login/", {
-      email: email,
-      password: password,
-    })
-      .then(function (response) {
-        setLoading(false);
-        localStorage.setItem("token", response.data.key);
-        navigate("/");
-      })
-      .catch(function (error) {
-        console.log(error);
-        setLoading(false);
-      });
+    props.login(email, password);
   };
+
+  if (props.user) return <Redirect to="/" noThrow />;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -89,7 +73,7 @@ const Auth = () => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
-            disabled={loading}
+            disabled={props.loading}
             text={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={(e) => setEmail(e.target.value)}
@@ -105,7 +89,7 @@ const Auth = () => {
             autoFocus
           />
           <TextField
-            disabled={loading}
+            disabled={props.loading}
             text={password}
             onChange={(e) => setPassword(e.target.value)}
             onBlur={(e) => setPassword(e.target.value)}
@@ -119,22 +103,18 @@ const Auth = () => {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            disabled={loading}
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          {loading && <CircularProgress />}
-          <Button
+          {/* <div className={classes.wrapper}> */}
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={loading}
+            disabled={props.loading}
+            loading={props.loading}
           >
             Sign In
-          </Button>
+          </LoadingButton>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -156,4 +136,23 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.authReducer.loading,
+    user: state.authReducer.user,
+    error: state.authReducer.error,
+  };
+};
+
+const mapActionToProps = {
+  login: loginUser,
+};
+
+Auth.propTypes = {
+  login: PropTypes.any,
+  loading: PropTypes.bool,
+  user: PropTypes.any,
+  error: PropTypes.any,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(Auth);

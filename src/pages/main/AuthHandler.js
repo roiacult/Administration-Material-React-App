@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect } from "@reach/router";
 import PropTypes from "prop-types";
+import { getLoggedInUser } from "../../helpers/authUtils";
 
 const AuthHandler = ({ children }) => {
-  let token = localStorage.getItem("token");
-  return !token ? <Redirect to="/login" noThrow /> : { ...children };
+  let user = getLoggedInUser();
+  return !user ? <Redirect to="/login" noThrow /> : { ...children };
 };
 
 AuthHandler.propTypes = {

@@ -55,9 +55,13 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
     "react-scripts": "3.4.1",
     "react-svg": "^11.0.34",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "redux": "^4.0.5",
+    "redux-saga": "^1.1.3"
   }
 }
